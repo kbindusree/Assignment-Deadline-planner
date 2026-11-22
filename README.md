@@ -1,4 +1,4 @@
-# DueMate – Assignment Deadline Planner
+Assignment Deadline Planner
 
 A responsive student assignment planner built with HTML, CSS and basic JavaScript, using a Pastel Pink & Lavender visual theme.
 
