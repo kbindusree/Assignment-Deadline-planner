@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DueMate - a simple, reliable assignment deadline planner for students.">
+  <title>DueMate | Assignment Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="DueMate home">
+        <span class="brand-mark">D</span>
+        <span>due<span class="brand-light">mate</span></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
+        <button class="nav-link" data-view="assignments"><span class="nav-icon">▤</span> My assignments <span class="nav-count" id="navCount">0</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note">
+          <div class="note-icon">✦</div>
+          <strong>One task at a time.</strong>
+          <p>Small steps make big deadlines easier.</p>
+        </div>
+        <div class="profile">
+          <div class="avatar">S</div>
+          <div><strong>Student workspace</strong><small>Your personal planner</small></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="pageName">Dashboard</strong></div>
+        <div class="topbar-right">
+          <span class="today-label" id="todayLabel"></span>
+          <button class="primary-btn top-add" id="addTopBtn">＋ Add assignment</button>
+        </div>
+      </header>
+
+      <section class="page active-page" id="dashboardView">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow">YOUR STUDY OVERVIEW</p>
+            <h1>Stay ahead of your <span>deadlines.</span></h1>
+            <p class="subheading">A clear plan for every assignment, all in one place.</p>
+          </div>
+          <div class="date-chip"><span>◷</span><div><small>TODAY</small><strong id="fullDate"></strong></div></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top"><span>Total assignments</span><span class="stat-icon purple">▤</span></div>
+            <strong class="stat-number" id="totalStat">0</strong><small>All your recorded tasks</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Pending</span><span class="stat-icon amber">◷</span></div>
+            <strong class="stat-number" id="pendingStat">0</strong><small>Not started yet</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>In progress</span><span class="stat-icon blue">↗</span></div>
+            <strong class="stat-number" id="progressStat">0</strong><small>Currently being worked on</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div>
+            <strong class="stat-number" id="completedStat">0</strong><small>Tasks finished</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel upcoming-panel">
+            <div class="panel-heading">
+              <div><p class="eyebrow">WHAT'S NEXT</p><h2>Upcoming deadlines</h2></div>
+              <button class="text-btn" data-go="assignments">View all <span>→</span></button>
+            </div>
+            <div id="upcomingList" class="upcoming-list"></div>
+          </section>
+          <section class="panel progress-panel">
+            <div class="panel-heading"><div><p class="eyebrow">YOUR MOMENTUM</p><h2>Completion progress</h2></div></div>
+            <div class="progress-ring-wrap">
+              <div class="progress-ring" id="progressRing"><div><strong id="completionPercent">0%</strong><small>completed</small></div></div>
+            </div>
+            <p class="progress-caption" id="progressCaption">Add your first assignment to start tracking your progress.</p>
+            <div class="mini-legend">
+              <span><i class="dot dot-purple"></i> Completed</span>
+              <span><i class="dot dot-muted"></i> Remaining</span>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel recent-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">KEEP IT MOVING</p><h2>Recently added</h2></div>
+            <button class="text-btn" data-go="assignments">All assignments <span>→</span></button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ASSIGNMENT</th><th>SUBJECT</th><th>DUE DATE</th><th>PRIORITY</th><th>STATUS</th></tr></thead>
+              <tbody id="recentTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="page" id="assignmentsView">
+        <div class="list-page-heading">
+          <div><p class="eyebrow">YOUR WORK, ORGANIZED</p><h1>My assignments</h1><p class="subheading">Keep every task visible and every deadline under control.</p></div>
+          <button class="primary-btn" id="addMainBtn">＋ New assignment</button>
+        </div>
+        <div class="panel filters-panel">
+          <div class="search-box"><span>⌕</span><input type="search" id="searchInput" placeholder="Search assignment or subject..." aria-label="Search assignments"></div>
+          <select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select>
+          <select id="priorityFilter" aria-label="Filter by priority"><option value="all">All priorities</option><option value="High">High priority</option><option value="Medium">Medium priority</option><option value="Low">Low priority</option></select>
+          <select id="sortFilter" aria-label="Sort assignments"><option value="dateAsc">Due date: earliest</option><option value="dateDesc">Due date: latest</option><option value="priority">Priority: high first</option><option value="recent">Recently added</option></select>
+        </div>
+        <div class="list-summary"><span id="resultCount">0 assignments</span><span>Choose a task to update its progress.</span></div>
+        <div id="assignmentList" class="assignment-list"></div>
+      </section>
+
+      <footer class="footer">DueMate <span>•</span> Make deadlines feel manageable.</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header"><div><p class="eyebrow">ASSIGNMENT DETAILS</p><h2 id="modalTitle">Add an assignment</h2></div><button class="close-btn" id="closeModal" aria-label="Close">×</button></div>
+      <form id="assignmentForm">
+        <input type="hidden" id="assignmentId">
+        <label>Assignment title <span>*</span><input id="titleInput" type="text" maxlength="80" placeholder="e.g. HTML mini project" required></label>
+        <div class="form-row">
+          <label>Subject <span>*</span><input id="subjectInput" type="text" maxlength="50" placeholder="e.g. Web Development" required></label>
+          <label>Category<select id="categoryInput"><option>Assignment</option><option>Project</option><option>Lab work</option><option>Presentation</option><option>Quiz / Test</option><option>Other</option></select></label>
+        </div>
+        <div class="form-row">
+          <label>Due date <span>*</span><input id="dueDateInput" type="date" required></label>
+          <label>Priority<select id="priorityInput"><option>Medium</option><option>High</option><option>Low</option></select></label>
+        </div>
+        <label>Status<select id="statusInput"><option>Pending</option><option>In Progress</option><option>Completed</option></select></label>
+        <label>Notes <small>(optional)</small><textarea id="notesInput" rows="3" maxlength="400" placeholder="Add instructions, links or things to remember..."></textarea></label>
+        <div class="form-error" id="formError" role="alert"></div>
+        <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn" id="saveBtn">Save assignment</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
